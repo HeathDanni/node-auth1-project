@@ -21,7 +21,7 @@ router.post("/users", async (req, res, next) => {
             })
         }
         const newUser = await Users.add({ username, 
-            password: await bcrypt.hash(password, 10)
+            password: await bcrypt.hash(password, 13)
         })
         return res.status(201).json(newUser)
    }
