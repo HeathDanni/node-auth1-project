@@ -2,8 +2,9 @@ const express = require("express")
 const bcrypt = require("bcryptjs")
 const Users = require("./model")
 const router = express.Router()
+const {restrict} = require("./middleware")
 
-router.get("/users", async (req, res, next) => {
+router.get("/users", restrict(), async (req, res, next) => {
     try {
         res.json(await Users.find())
     } catch(err) {
