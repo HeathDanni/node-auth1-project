@@ -42,6 +42,7 @@ router.post("/login", async (req, res, next) => {
                 message: "You shall not pass!"
             })
         }
+            req.session.user = user
             res.json({
                 message: `Welcome ${user.username}`
             })
