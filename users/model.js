@@ -9,18 +9,18 @@ module.exports = {
 }
 
 //finds all users
-async function find() {
+function find() {
     return db("users").select("id", "username")
 }
 
 //finds user by id
-async function findById(id) {
+function findById(id) {
     return db("users")
         .where({id})
         .first()
 }
 
-//creates user login
+//creates user
 async function add(user) {
     const [id] = await db("users")
         .insert(user)
@@ -28,7 +28,7 @@ async function add(user) {
 }
 
 //finds user by either id, username, or password
-async function findBy(filter) {
+function findBy(filter) {
     return db("users")
         .select("id", "username", "password")
         .where(filter)
