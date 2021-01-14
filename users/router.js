@@ -3,9 +3,17 @@ const bcrypt = require("bcryptjs")
 const Users = require("./model")
 const router = express.Router()
 
+router.get("/users", async (req, res, next) => {
+    try {
+        res.json(await Users.find())
+    } catch(err) {
+        next(err)
+    }
+})
+
 router.post("/users", async (req, res, next) => {
    try {
-        const {username, password} = res.body
+        const {username, password} = req.body
         const user = await Users.findBy({username}).first
         if (user) {
             return res.status(409).json({
@@ -40,12 +48,5 @@ router.post("/login", async (req, res, next) => {
     }
 })
 
-router.get("/", async (req, res, next) => {
-    try {
-        res.json(await Users.find())
-    } catch(err) {
-        next(err)
-    }
-})
 
 module.exports = router
