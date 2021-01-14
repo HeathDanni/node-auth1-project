@@ -2,7 +2,7 @@ const express = require("express")
 const userRouter = require("./users/router")
 const db = require("./database/config")
 const session = require("express-session")
-
+const ConnectSessionKnex = require("connect-session-knex")(session)
 server = express()
 const port = process.envPort || 4000
 
@@ -10,7 +10,11 @@ server.use(express.json())
 server.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: "shhh, this is a secret"
+    secret: "shhh, this is a secret",
+    store: new ConnectSessionKnex({
+        knex: db,
+        createtable: true
+    })
 }))
 server.use(userRouter)
 
