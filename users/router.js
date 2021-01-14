@@ -1,7 +1,7 @@
 const express = require("express")
 const bcrypt = require("bcryptjs")
 const Users = require("./model")
-const { Router } = require("express")
+const router = express.Router()
 
 router.post("/users", async (req, res, next) => {
    try {
@@ -12,7 +12,9 @@ router.post("/users", async (req, res, next) => {
                 message: "Username is unavailable"
             })
         }
-        const newUser = await Users.add({ username, password})
+        const newUser = await Users.add({ username, 
+            password: await bcrypt.hash(password, 10)
+        })
         return res.status(201).json(newUser)
    }
    catch(err) {
@@ -45,3 +47,5 @@ router.get("/", async (req, res, next) => {
         next(err)
     }
 })
+
+module.exports = router
